@@ -1,29 +1,20 @@
-/// Pieces of data that compose an entity
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum Component {
-    /// The absence of a component
-    Empty,
-}
+use component::Component;
+use storage::{Storage, StorageMut};
 
-/// Enables different collections of components to be iterated over on the same entities
-pub trait Join {
-    fn join(&mut self) -> Vec<(&mut Component, &Component)>;
-}
+use std::time::Duration;
 
-impl<'a> Join for (&'a mut Vec<Component>, &'a Vec<Component>) {
-    fn join(&mut self) -> Vec<(&mut Component, &Component)> {
-        self.0.iter_mut().zip(self.1.iter())
-            .filter(|(&mut a, &b)| a != Component::Empty && b != Component::Empty)
-            .collect::<Vec<_>>()
-    }
-}
+pub trait System {
+    fn update(&self, dependent: &mut Component, independent: &Component, delta: &Duration);
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn join_empty_collections() {
-        assert_eq!((&mut vec![], &vec![]).join(), vec![]);
+    fn run<'a, A, B>(&self, dependents: A, independents: B, delta: &Duration)
+    where
+        A: StorageMut<'a> + IntoIterator<Item = &'a mut Component>,
+        B: Storage<'a>,
+    {
+        for (index, mut dependent) in dependents.into_iter().enumerate() {
+            if let Some(independent) = independents.get(index) {
+                self.update(&mut dependent, independent, delta);
+            }
+        }
     }
 }
