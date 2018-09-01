@@ -18,6 +18,10 @@ impl SequenceStorage {
     pub fn new() -> Self {
         SequenceStorage(Vec::new())
     }
+
+    pub fn add(&mut self, component: Component) {
+        self.0.push(component)
+    }
 }
 
 impl<'a> Storage<'a> for &'a SequenceStorage {

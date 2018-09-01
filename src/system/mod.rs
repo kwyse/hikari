@@ -3,7 +3,7 @@ use storage::{Storage, StorageMut};
 
 use std::time::Duration;
 
-mod movement;
+pub mod movement;
 
 pub trait System {
     fn update(&self, dependent: &mut Component, independent: &Component, delta: &Duration);
