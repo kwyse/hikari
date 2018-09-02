@@ -1,4 +1,4 @@
-use input::BitVector;
+use util::BitVector;
 
 /// Pieces of data that compose an entity
 #[derive(Clone, Copy, Debug, PartialEq)]

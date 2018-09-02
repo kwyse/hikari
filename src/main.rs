@@ -2,6 +2,7 @@ pub mod component;
 pub mod input;
 pub mod storage;
 pub mod system;
+pub mod util;
 pub mod world;
 
 use component::Component;
