@@ -4,6 +4,7 @@ mod system;
 
 use component::Component;
 use storage::Storage;
+use storage::map::MapStorage;
 use storage::sequence::SequenceStorage;
 use system::System;
 use system::movement::MovementSystem;
@@ -15,8 +16,8 @@ fn main() {
     positions.add(Component::Position(0.0, 0.0));
     positions.add(Component::Position(1.0, 1.0));
 
-    let mut velocities = SequenceStorage::new();
-    velocities.add(Component::Velocity(3.0, 3.0));
+    let mut velocities = MapStorage::new();
+    velocities.add(0, Component::Velocity(3.0, 3.0));
 
     let duration = Duration::new(9, 0);
 

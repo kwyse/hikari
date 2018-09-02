@@ -1,5 +1,6 @@
 use component::Component;
 
+pub mod map;
 pub mod sequence;
 
 pub trait Storage<'a> {
