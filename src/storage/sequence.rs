@@ -42,11 +42,28 @@ impl<'a> Iterator for SequenceStorageIter<'a> {
     type Item = (usize, &'a mut Component);
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.1.next().map(|item| {
-            let ret = (self.0, item);
+        self.1.next().map(|component| {
+            let index = self.0;
             self.0 += 1;
 
-            ret
+            (index, component)
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn iterator_yields_index_and_component() {
+        let mut seq = SequenceStorage::new();
+        seq.add(Component::Empty);
+        seq.add(Component::Empty);
+
+        let mut iter = seq.into_iter();
+        assert_eq!(iter.next(), Some((0, &mut Component::Empty)));
+        assert_eq!(iter.next(), Some((1, &mut Component::Empty)));
+        assert_eq!(iter.next(), None);
     }
 }
