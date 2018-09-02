@@ -10,8 +10,28 @@ impl SequenceStorage {
         SequenceStorage(Vec::new())
     }
 
-    pub fn add(&mut self, component: Component) {
+    pub fn size(&self) -> usize {
+        self.0.len()
+    }
+
+    pub fn add(&mut self, index: usize, component: Component) {
+        self.ensure_index_fits(index);
         self.0.push(component)
+    }
+
+    pub fn as_slice(&self) -> &[Component] {
+        &self.0
+    }
+
+    fn ensure_index_fits(&mut self, index: usize) {
+        let allocated = self.0.len();
+        if index > allocated {
+            self.0.reserve(index - allocated);
+        }
+
+        for _ in self.0.len()..index {
+            self.0.push(Component::Empty);
+        }
     }
 }
 
@@ -58,8 +78,8 @@ mod tests {
     #[test]
     fn iterator_yields_index_and_component() {
         let mut seq = SequenceStorage::new();
-        seq.add(Component::Empty);
-        seq.add(Component::Empty);
+        seq.add(0, Component::Empty);
+        seq.add(1, Component::Empty);
 
         let mut iter = seq.into_iter();
         assert_eq!(iter.next(), Some((0, &mut Component::Empty)));

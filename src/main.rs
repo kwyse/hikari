@@ -15,8 +15,8 @@ use std::time::Duration;
 
 fn main() {
     let mut positions = SequenceStorage::new();
-    positions.add(Component::Position(0.0, 0.0));
-    positions.add(Component::Position(1.0, 1.0));
+    positions.add(0, Component::Position(0.0, 0.0));
+    positions.add(1, Component::Position(1.0, 1.0));
 
     let mut velocities = MapStorage::new();
     velocities.add(0, Component::Velocity(3.0, 3.0));
