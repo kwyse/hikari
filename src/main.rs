@@ -1,4 +1,5 @@
 mod component;
+mod input;
 mod storage;
 mod system;
 mod world;

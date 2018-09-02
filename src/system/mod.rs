@@ -3,6 +3,7 @@ use storage::{Storage, StorageMut};
 
 use std::time::Duration;
 
+pub mod keys;
 pub mod movement;
 
 pub trait System {

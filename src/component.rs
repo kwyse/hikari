@@ -1,3 +1,5 @@
+use input::BitVector;
+
 /// Pieces of data that compose an entity
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Component {
@@ -9,4 +11,7 @@ pub enum Component {
 
     /// The world velocity of a component
     Velocity(f64, f64),
+
+    /// The state of the keys on the keyboard
+    KeysPressed(BitVector),
 }
