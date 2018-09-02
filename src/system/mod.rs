@@ -10,10 +10,10 @@ pub trait System {
 
     fn run<'a, A, B>(&self, dependents: A, independents: B, delta: &Duration)
     where
-        A: StorageMut<'a> + IntoIterator<Item = &'a mut Component>,
+        A: StorageMut<'a> + IntoIterator<Item = (usize, &'a mut Component)>,
         B: Storage<'a>,
     {
-        for (index, mut dependent) in dependents.into_iter().enumerate() {
+        for (index, mut dependent) in dependents.into_iter() {
             if let Some(independent) = independents.get(index) {
                 self.update(&mut dependent, independent, delta);
             }
