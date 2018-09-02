@@ -38,7 +38,7 @@ impl<'a> EntityBuilder<'a> {
         match component {
             Component::Position(_, _) => self.index = self.index.max(self.world.positions.size()),
             Component::Velocity(_, _) => self.index = self.index.max(self.world.velocities.size()),
-            Component::Empty => { },
+            _ => { },
         }
 
         self.components.push(component);
@@ -50,7 +50,7 @@ impl<'a> EntityBuilder<'a> {
             match component {
                 Component::Position(_, _) => self.world.positions.add(self.index, component),
                 Component::Velocity(_, _) => self.world.velocities.add(self.index, component),
-                Component::Empty => { },
+                _ => { },
             }
         }
     }
