@@ -1,8 +1,8 @@
-mod component;
-mod input;
-mod storage;
-mod system;
-mod world;
+pub mod component;
+pub mod input;
+pub mod storage;
+pub mod system;
+pub mod world;
 
 use component::Component;
 use storage::Storage;
