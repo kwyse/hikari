@@ -15,23 +15,12 @@ impl SequenceStorage {
     }
 
     pub fn add(&mut self, index: usize, component: Component) {
-        self.ensure_index_fits(index);
+        ensure_index_fits(index, &mut self.0);
         self.0.push(component)
     }
 
     pub fn as_slice(&self) -> &[Component] {
         &self.0
-    }
-
-    fn ensure_index_fits(&mut self, index: usize) {
-        let allocated = self.0.len();
-        if index > allocated {
-            self.0.reserve(index - allocated);
-        }
-
-        for _ in self.0.len()..index {
-            self.0.push(Component::Empty);
-        }
     }
 }
 
@@ -68,6 +57,17 @@ impl<'a> Iterator for SequenceStorageIter<'a> {
 
             (index, component)
         })
+    }
+}
+
+fn ensure_index_fits(index: usize, components: &mut Vec<Component>) {
+    let allocated = components.len();
+    if index > allocated {
+        components.reserve(index - allocated);
+    }
+
+    for _ in components.len()..index {
+        components.push(Component::Empty);
     }
 }
 
