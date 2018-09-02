@@ -22,8 +22,6 @@ impl<'a> Storage<'a> for &'a SequenceStorage {
 }
 
 impl<'a> StorageMut<'a> for &'a mut SequenceStorage {
-    type StorageIterMut = IterMut<'a, Component>;
-
     fn get_mut(&mut self, index: usize) -> Option<&mut Component> {
         self.0.get_mut(index)
     }

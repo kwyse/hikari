@@ -7,7 +7,5 @@ pub trait Storage<'a> {
 }
 
 pub trait StorageMut<'a> {
-    type StorageIterMut: Iterator<Item = &'a mut Component>;
-
     fn get_mut(&mut self, index: usize) -> Option<&mut Component>;
 }
