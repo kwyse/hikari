@@ -3,7 +3,8 @@ mod storage;
 mod system;
 
 use component::Component;
-use storage::{Storage, SequenceStorage};
+use storage::Storage;
+use storage::sequence::SequenceStorage;
 use system::System;
 use system::movement::MovementSystem;
 
