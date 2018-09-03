@@ -2,8 +2,8 @@ use component::Component;
 use storage::sequence::SequenceStorage;
 
 pub struct World {
-    positions: SequenceStorage,
-    velocities: SequenceStorage,
+    pub positions: SequenceStorage,
+    pub velocities: SequenceStorage,
 }
 
 impl World {
