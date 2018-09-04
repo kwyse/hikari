@@ -29,10 +29,20 @@ impl<'a> StorageMut<'a> for &'a mut MapStorage {
 }
 
 impl<'a> IntoIterator for &'a mut MapStorage {
-    type Item = (&'a usize, &'a mut Component);
-    type IntoIter = IterMut<'a, usize, Component>;
+    type Item = (usize, &'a mut Component);
+    type IntoIter = MapStorageIter<'a>;
 
     fn into_iter(self) -> Self::IntoIter {
-        self.0.iter_mut()
+        MapStorageIter(self.0.iter_mut())
+    }
+}
+
+pub struct MapStorageIter<'a>(IterMut<'a, usize, Component>);
+
+impl<'a> Iterator for MapStorageIter<'a> {
+    type Item = (usize, &'a mut Component);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.0.next().map(|(index, component)| (*index, component))
     }
 }
