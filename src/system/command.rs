@@ -10,8 +10,8 @@ pub struct CommandSystem;
 impl System for CommandSystem {
     fn update(&self, dependent: &mut Component, independent: &Component, _: &Duration) {
         if let (Commands(commands), KeysPressed(keys)) = (dependent, independent) {
-            if keys & (1 << ESCAPE) != 0 {
-                *commands |= 1 << QUIT
+            if keys.is_set(ESCAPE) {
+                commands.set(QUIT)
             }
         }
     }
