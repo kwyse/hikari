@@ -1,5 +1,9 @@
 use self::run::{ExecutionFlow, ExecutionLoop};
+use command::QUIT;
+use component::Component::Commands;
+use storage::Storage;
 use system::System;
+use system::command::CommandSystem;
 use system::movement::MovementSystem;
 use world::World;
 
@@ -23,19 +27,33 @@ impl App {
     /// Runs the execution loop on its `World`
     pub fn run(mut self) {
         ExecutionLoop::new(60).run(|delta| {
+            self.systems.command.run(&mut self.world.commands, &self.world.keys, &delta);
             self.systems.movement.run(&mut self.world.positions, &self.world.velocities, &delta);
-            ExecutionFlow::Quit
+
+            if let Some(player_id) = self.world.player_id() {
+                if let Some(player_commands) = (&self.world.commands).get(player_id) {
+                    if let Commands(commands) = player_commands {
+                        if commands.is_set(QUIT) {
+                            return ExecutionFlow::Quit;
+                        }
+                    }
+                }
+            }
+
+            ExecutionFlow::Continue
         })
     }
 }
 
 struct Systems {
+    command: CommandSystem,
     movement: MovementSystem,
 }
 
 impl Systems {
     fn new() -> Self {
         Self {
+            command: CommandSystem,
             movement: MovementSystem,
         }
     }
