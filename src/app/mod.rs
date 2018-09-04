@@ -1,5 +1,5 @@
 use self::run::{ExecutionFlow, ExecutionLoop};
-use command::QUIT;
+use command::Command;
 use component::Component::Commands;
 use storage::Storage;
 use system::System;
@@ -33,7 +33,7 @@ impl App {
             if let Some(player_id) = self.world.player_id() {
                 if let Some(player_commands) = (&self.world.commands).get(player_id) {
                     if let Commands(commands) = player_commands {
-                        if commands.is_set(QUIT) {
+                        if commands.is_set(Command::Quit) {
                             return ExecutionFlow::Quit;
                         }
                     }

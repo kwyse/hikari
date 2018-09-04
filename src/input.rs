@@ -1,6 +1,14 @@
-pub const ESCAPE: u64 = 1 << 0;
+/// Keys on a keyboard
+pub enum Keys {
+    Escape,
+    W,
+    S,
+    A,
+    D,
+}
 
-pub const W: u64 = 1 << 1;
-pub const S: u64 = 1 << 2;
-pub const A: u64 = 1 << 3;
-pub const D: u64 = 1 << 4;
+impl Into<u64> for Keys {
+    fn into(self) -> u64 {
+        self as u64
+    }
+}
