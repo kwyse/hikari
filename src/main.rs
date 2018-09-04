@@ -1,4 +1,5 @@
 pub mod app;
+pub mod command;
 pub mod component;
 pub mod input;
 pub mod storage;

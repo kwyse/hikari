@@ -14,4 +14,7 @@ pub enum Component {
 
     /// The state of the keys on the keyboard
     KeysPressed(BitVector),
+
+    /// The current commands being issued
+    Commands(BitVector),
 }

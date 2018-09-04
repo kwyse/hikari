@@ -1,7 +1,10 @@
 use component::Component;
+use storage::map::MapStorage;
 use storage::sequence::SequenceStorage;
 
 pub struct World {
+    pub commands: MapStorage,
+    pub keys: MapStorage,
     pub positions: SequenceStorage,
     pub velocities: SequenceStorage,
 }
@@ -9,6 +12,8 @@ pub struct World {
 impl World {
     pub fn new() -> Self {
         Self {
+            commands: MapStorage::new(),
+            keys: MapStorage::new(),
             positions: SequenceStorage::new(),
             velocities: SequenceStorage::new(),
         }

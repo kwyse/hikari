@@ -3,6 +3,7 @@ use storage::{Storage, StorageMut};
 
 use std::time::Duration;
 
+pub mod command;
 pub mod keys;
 pub mod movement;
 
