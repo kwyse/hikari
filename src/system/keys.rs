@@ -33,19 +33,19 @@ mod tests {
     }
 
     #[test]
-    fn key_w_pressed() {
+    fn one_movement_key_pressed() {
         let mut velocity = Velocity(1.0, 0.0);
         let delta = Duration::new(0, 0);
-        KeysSystem.update(&mut velocity, &KeysPressed((1_u64 << Keys::W as u64).into()), &delta);
+        KeysSystem.update(&mut velocity, &KeysPressed((1_u128 << Keys::W as u64).into()), &delta);
 
         assert_eq!(velocity, Velocity(1.0, 1.0));
     }
 
     #[test]
-    fn keys_w_and_d_pressed() {
+    fn multiple_movement_keys_pressed() {
         let mut velocity = Velocity(1.0, 0.0);
         let delta = Duration::new(0, 0);
-        let keys_state = KeysPressed((1_u64 << Keys::W as u64 | 1_u64 << Keys::D as u64).into());
+        let keys_state = KeysPressed((1_u128 << Keys::W as u64 | 1_u128 << Keys::D as u64).into());
         KeysSystem.update(&mut velocity, &keys_state.into(), &delta);
 
         assert_eq!(velocity, Velocity(2.0, 1.0));

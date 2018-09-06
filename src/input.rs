@@ -1,3 +1,5 @@
+use util::BitVectorStorage;
+
 /// Keys on a keyboard
 pub enum Keys {
     Escape,
@@ -7,8 +9,8 @@ pub enum Keys {
     D,
 }
 
-impl Into<u64> for Keys {
-    fn into(self) -> u64 {
-        self as u64
+impl Into<BitVectorStorage> for Keys {
+    fn into(self) -> BitVectorStorage {
+        self as BitVectorStorage
     }
 }

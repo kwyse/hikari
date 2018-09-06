@@ -1,27 +1,30 @@
-/// A 64-bit unsigned integer-backed bit vector
+/// The underlying storage type for `BitVector`
+pub type BitVectorStorage = u128;
+
+/// A 128-bit unsigned integer-backed bit vector
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub struct BitVector(u64);
+pub struct BitVector(BitVectorStorage);
 
 impl BitVector {
     pub fn new() -> Self {
         BitVector(0)
     }
 
-    pub fn is_set<T: Into<u64>>(&self, bit: T) -> bool {
+    pub fn is_set<T: Into<BitVectorStorage>>(&self, bit: T) -> bool {
         self.0 & 1 << bit.into() != 0
     }
 
-    pub fn set<T: Into<u64>>(&mut self, bit: T) {
+    pub fn set<T: Into<BitVectorStorage>>(&mut self, bit: T) {
         self.0 |= 1 << bit.into()
     }
 
-    pub fn unset<T: Into<u64>>(&mut self, bit: T) {
+    pub fn unset<T: Into<BitVectorStorage>>(&mut self, bit: T) {
         self.0 &= !(1 << bit.into())
     }
 }
 
-impl From<u64> for BitVector {
-    fn from(value: u64) -> Self {
+impl From<BitVectorStorage> for BitVector {
+    fn from(value: BitVectorStorage) -> Self {
         BitVector(value)
     }
 }
