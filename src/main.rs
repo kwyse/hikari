@@ -1,3 +1,5 @@
+extern crate winit;
+
 pub mod app;
 pub mod command;
 pub mod component;

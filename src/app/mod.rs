@@ -1,11 +1,14 @@
 use self::run::{ExecutionFlow, ExecutionLoop};
 use command::Command;
-use component::Component::Commands;
-use storage::Storage;
+use component::Component::{Commands, KeysPressed};
+use input::Keys;
+use storage::{Storage, StorageMut};
 use system::System;
 use system::command::CommandSystem;
 use system::movement::MovementSystem;
 use world::World;
+
+use winit::{Event, EventsLoop};
 
 pub mod run;
 
@@ -13,6 +16,7 @@ pub mod run;
 pub struct App {
     world: World,
     systems: Systems,
+    events: EventsLoop,
 }
 
 impl App {
@@ -21,12 +25,38 @@ impl App {
         Self {
             world,
             systems: Systems::new(),
+            events: EventsLoop::new(),
         }
     }
 
     /// Runs the execution loop on its `World`
     pub fn run(mut self) {
+        use winit::DeviceEvent;
+        use winit::KeyboardInput;
+        use winit::VirtualKeyCode;
+
         ExecutionLoop::new(60).run(|delta| {
+            let id = self.world.player_id();
+
+            // TODO: This is wasteful becuase the events are iterated through twice!
+            let mut events = Vec::new();
+            self.events.poll_events(|event| events.push(event));
+            for event in &events {
+                if let Some(player_id) = id {
+                    if let Some(player_keys) = (&mut self.world.keys).get_mut(player_id) {
+                        if let KeysPressed(keys) = player_keys {
+                            if let Event::DeviceEvent { event: DeviceEvent::Key(input), .. } = event {
+                                if let KeyboardInput { virtual_keycode: Some(key), .. } = input {
+                                    if *key == VirtualKeyCode::Escape {
+                                        keys.set(Keys::Escape)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             self.systems.command.run(&mut self.world.commands, &self.world.keys, &delta);
             self.systems.movement.run(&mut self.world.positions, &self.world.velocities, &delta);
 
