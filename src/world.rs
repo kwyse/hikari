@@ -70,6 +70,8 @@ impl<'a> EntityBuilder<'a> {
             match component {
                 Component::Position(_, _) => self.world.positions.add(self.index, component),
                 Component::Velocity(_, _) => self.world.velocities.add(self.index, component),
+                Component::KeysPressed(_) => self.world.keys.add(self.index, component),
+                Component::Commands(_) => self.world.commands.add(self.index, component),
                 _ => { },
             }
         }

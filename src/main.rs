@@ -18,6 +18,9 @@ fn main() {
     world.create_entity()
         .with_component(Component::Position(10.0, 10.0))
         .with_component(Component::Velocity(5.0, 1.0))
+        .with_component(Component::KeysPressed(0.into()))
+        .with_component(Component::Commands(0.into()))
+        .make_player()
         .build();
 
     App::new(world).run();
